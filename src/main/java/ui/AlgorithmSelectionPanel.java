@@ -86,12 +86,13 @@ public class AlgorithmSelectionPanel extends JPanel {
     }
 
     private void toggleSelectAll() {
+        selectAll = !selectAll;
         if (selectAll) {
             selectAllButton.setText("Comparison Mode: ON (" + algorithmNames.size() + " Algorithms)");
         } else {
             selectAllButton.setText("Single Algorithm");
         }
-        selectAllButton.setText(selectAll ? "Select All: ON" : "Select All: OFF");
+        updateDirectionVisibility();
     }
 
     private void updateDirectionVisibility() {
