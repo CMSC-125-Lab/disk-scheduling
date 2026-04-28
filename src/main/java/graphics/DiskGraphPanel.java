@@ -51,9 +51,9 @@ public class DiskGraphPanel extends JPanel {
         int width = getWidth();
         int height = getHeight();
         int padding = 50;
-        int axisY = 45;
-        int yStart = 80;
-        int yStep = Math.max(24, (height - yStart - 40) / Math.max(1, result.visitOrder.length));
+        int axisY = 36;
+        int yStart = 58;
+        int yStep = Math.max(5, (height - yStart - 24) / Math.max(1, result.visitOrder.length));
 
         g2.setColor(new Color(120, 120, 120));
         g2.setStroke(new BasicStroke(2f));
