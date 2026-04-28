@@ -9,12 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public final class Theme {
-    public static final Color BG = new Color(252, 248, 252);
+    public static final Color BG = new Color(21, 23, 61);
     public static final Color PANEL = new Color(255, 255, 255);
-    public static final Color ACCENT = new Color(217, 43, 140);
-    public static final Color ACCENT_DARK = new Color(150, 25, 95);
-    public static final Color TEXT = new Color(56, 30, 50);
-    public static final Color MUTED = new Color(145, 110, 138);
+    public static final Color ACCENT = new Color(152, 37, 152);
+    public static final Color ACCENT_DARK = new Color(152, 37, 152);
+    public static final Color TEXT = new Color(228, 145, 201);
+    public static final Color MUTED = new Color(217, 217, 217);
+    public static final Color INPUT_BG = new Color(217, 217, 217);
 
     private Theme() {
     }
@@ -32,8 +33,8 @@ public final class Theme {
 
     public static JButton createSecondaryButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(new Color(255, 232, 246));
-        button.setForeground(ACCENT_DARK);
+        button.setBackground(new Color(100, 40, 100));
+        button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.BOLD, 14));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -46,7 +47,7 @@ public final class Theme {
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setOpaque(false);
-        button.setForeground(ACCENT_DARK);
+        button.setForeground(TEXT);
         button.setFocusPainted(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -55,7 +56,7 @@ public final class Theme {
 
     public static JLabel createLogoPlaceholder() {
         JLabel label = new JLabel("APP LOGO HERE");
-        label.setForeground(ACCENT);
+        label.setForeground(TEXT);
         label.setFont(new Font("SansSerif", Font.BOLD, 14));
         return label;
     }
