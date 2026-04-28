@@ -38,7 +38,8 @@ public class AlgorithmSelectionPanel extends JPanel {
         JButton selectButton = Theme.createSecondaryButton("Select Algorithm");
         selectButton.addActionListener(e -> openAlgorithmDialog());
 
-        selectAllButton = Theme.createSecondaryButton("Select All: OFF");
+        selectAllButton = Theme.createSecondaryButton("Single Algorithm");
+        selectAllButton.setToolTipText("Run all " + algorithmNames.size() + " algorithms in comparison mode");
         selectAllButton.addActionListener(e -> toggleSelectAll());
 
         JPanel directionPanel = new JPanel(new BorderLayout(8, 0));
@@ -85,7 +86,11 @@ public class AlgorithmSelectionPanel extends JPanel {
     }
 
     private void toggleSelectAll() {
-        selectAll = !selectAll;
+        if (selectAll) {
+            selectAllButton.setText("Comparison Mode: ON (" + algorithmNames.size() + " Algorithms)");
+        } else {
+            selectAllButton.setText("Single Algorithm");
+        }
         selectAllButton.setText(selectAll ? "Select All: ON" : "Select All: OFF");
     }
 
