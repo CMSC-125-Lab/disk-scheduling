@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -55,11 +56,17 @@ public class ManualInputScreen extends JPanel {
 
         JLabel queueLabel = new JLabel("Queue (separated by comma)");
         queueLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        queueLabel.setForeground(Theme.TEXT);
         queueField = new JTextField("83, 129, 36, 20, 199");
+        queueField.setBackground(Theme.INPUT_BG);
+        queueField.setForeground(Theme.INPUT_TEXT);
 
         JLabel headLabel = new JLabel("Head Starts at");
         headLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        headLabel.setForeground(Theme.TEXT);
         headField = new JTextField("36");
+        headField.setBackground(Theme.INPUT_BG);
+        headField.setForeground(Theme.INPUT_TEXT);
 
         selectionPanel = new AlgorithmSelectionPanel(engine.getAlgorithmNames());
 

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -51,9 +52,9 @@ public class FileInputScreen extends JPanel {
         add(top, BorderLayout.NORTH);
 
         JPanel card = new JPanel(new GridBagLayout());
-        card.setBackground(Theme.PANEL);
+        card.setBackground(Theme.DARK_PANEL);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new java.awt.Color(245, 210, 230)),
+            BorderFactory.createLineBorder(new Color(95, 95, 95)),
                 BorderFactory.createEmptyBorder(18, 18, 18, 18)));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -66,12 +67,12 @@ public class FileInputScreen extends JPanel {
         browse.addActionListener(e -> browseAndLoadFile());
 
         selectedPath = new JLabel("No file selected");
-        selectedPath.setForeground(Theme.MUTED);
+        selectedPath.setForeground(Theme.TEXT);
 
         preview = new JTextArea(6, 30);
         preview.setEditable(false);
-        preview.setBackground(new java.awt.Color(255, 246, 252));
-        preview.setForeground(Theme.TEXT);
+        preview.setBackground(Theme.INPUT_BG);
+        preview.setForeground(Theme.INPUT_TEXT);
         preview.setFont(new Font("Monospaced", Font.PLAIN, 13));
 
         selectionPanel = new AlgorithmSelectionPanel(engine.getAlgorithmNames());

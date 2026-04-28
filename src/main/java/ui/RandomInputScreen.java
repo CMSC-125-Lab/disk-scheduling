@@ -57,11 +57,12 @@ public class RandomInputScreen extends JPanel {
 
         JLabel title = new JLabel("Randomly Generated Input");
         title.setFont(new Font("SansSerif", Font.BOLD, 16));
+        title.setForeground(Theme.TEXT);
 
         preview = new JTextArea(6, 30);
         preview.setEditable(false);
-        preview.setBackground(new java.awt.Color(255, 246, 252));
-        preview.setForeground(Theme.TEXT);
+        preview.setBackground(Theme.INPUT_BG);
+        preview.setForeground(Theme.INPUT_TEXT);
         preview.setFont(new Font("Monospaced", Font.PLAIN, 13));
 
         selectionPanel = new AlgorithmSelectionPanel(engine.getAlgorithmNames());

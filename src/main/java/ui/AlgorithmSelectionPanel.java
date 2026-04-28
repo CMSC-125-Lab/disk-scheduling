@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -47,6 +48,9 @@ public class AlgorithmSelectionPanel extends JPanel {
         directionLabel.setForeground(Theme.TEXT);
         directionCombo = new JComboBox<>(new String[] { "left", "right" });
         directionCombo.setSelectedItem("right");
+        directionCombo.setBackground(Theme.INPUT_BG);
+        directionCombo.setForeground(Theme.INPUT_TEXT);
+        directionCombo.setOpaque(true);
         directionPanel.add(directionLabel, BorderLayout.WEST);
         directionPanel.add(directionCombo, BorderLayout.CENTER);
 
@@ -88,6 +92,8 @@ public class AlgorithmSelectionPanel extends JPanel {
     private void updateDirectionVisibility() {
         boolean directional = isDirectional(selectedAlgorithm) || selectAll;
         directionCombo.setEnabled(directional);
+        directionCombo.setBackground(directional ? Theme.INPUT_BG : new Color(201, 201, 201));
+        directionCombo.setForeground(Theme.INPUT_TEXT);
     }
 
     private boolean isDirectional(String name) {
