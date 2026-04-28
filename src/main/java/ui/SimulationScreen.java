@@ -13,8 +13,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JTabbedPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.BoxLayout;
 
 import export.ExportManager;
 import graphics.DiskGraphPanel;
@@ -27,6 +29,7 @@ public class SimulationScreen extends JPanel {
     private final JLabel titleLabel;
     private final JLabel infoLabel;
     private final JPanel contentPanel;
+    private final JPanel resultsStack;
 
     private String backScreen = MainFrame.INPUT_METHOD;
     private List<AlgorithmResultPanel> resultPanels = new ArrayList<>();
@@ -70,6 +73,9 @@ public class SimulationScreen extends JPanel {
 
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setOpaque(false);
+        resultsStack = new JPanel();
+        resultsStack.setOpaque(false);
+        resultsStack.setLayout(new BoxLayout(resultsStack, BoxLayout.Y_AXIS));
         add(contentPanel, BorderLayout.CENTER);
 
         JPanel bottom = new JPanel(new BorderLayout());
@@ -86,18 +92,25 @@ public class SimulationScreen extends JPanel {
         infoLabel.setText("Queue: " + queueToText(queue) + "   Head starts at: " + headStart + ".");
 
         contentPanel.removeAll();
+        resultsStack.removeAll();
         if (results.size() == 1) {
             AlgorithmResultPanel panel = new AlgorithmResultPanel(results.get(0), queue, headStart, direction);
             resultPanels.add(panel);
             contentPanel.add(panel, BorderLayout.CENTER);
         } else {
-            JTabbedPane tabs = new JTabbedPane();
             for (SimulationResult result : results) {
                 AlgorithmResultPanel panel = new AlgorithmResultPanel(result, queue, headStart, direction);
                 resultPanels.add(panel);
-                tabs.addTab(result.algorithmName, panel);
+                panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                resultsStack.add(panel);
+                resultsStack.add(javax.swing.Box.createRigidArea(new Dimension(0, 12)));
             }
-            contentPanel.add(tabs, BorderLayout.CENTER);
+            JScrollPane scrollPane = new JScrollPane(resultsStack,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPane.setBorder(BorderFactory.createEmptyBorder());
+            scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+            contentPanel.add(scrollPane, BorderLayout.CENTER);
         }
 
         revalidate();
@@ -114,12 +127,6 @@ public class SimulationScreen extends JPanel {
         }
 
         Component target = resultPanels.get(0).getExportTarget();
-        if (contentPanel.getComponentCount() > 0 && contentPanel.getComponent(0) instanceof JTabbedPane tabs) {
-            Component selected = tabs.getSelectedComponent();
-            if (selected instanceof AlgorithmResultPanel resultPanel) {
-                target = resultPanel.getExportTarget();
-            }
-        }
         exportManager.exportComponent(target, this);
     }
 
@@ -142,6 +149,7 @@ public class SimulationScreen extends JPanel {
         AlgorithmResultPanel(SimulationResult result, int[] queue, int headStart, String direction) {
             setLayout(new BorderLayout(8, 8));
             setBackground(Theme.BG);
+            setMaximumSize(new Dimension(Integer.MAX_VALUE, 560));
 
             exportPanel = new JPanel(new BorderLayout(8, 8));
             exportPanel.setBackground(Theme.DARK_PANEL);

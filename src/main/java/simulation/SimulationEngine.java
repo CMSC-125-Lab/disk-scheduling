@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import algorithms.CLOOK;
 import algorithms.CSCAN;
@@ -19,6 +23,8 @@ public class SimulationEngine {
     public static final int MAX_CYLINDER = 199;
 
     private final Map<String, DiskScheduler> schedulers = new LinkedHashMap<>();
+        private final ExecutorService executor = Executors.newFixedThreadPool(Math.max(2,
+            Math.min(4, Runtime.getRuntime().availableProcessors())));
 
     public SimulationEngine() {
         register(new FCFS());
@@ -47,10 +53,24 @@ public class SimulationEngine {
     }
 
     public List<SimulationResult> runAll(int[] queue, int headStart, String direction) {
-        List<SimulationResult> results = new ArrayList<>();
+        List<CompletableFuture<SimulationResult>> futures = new ArrayList<>();
         for (String name : getAlgorithmNames()) {
-            results.add(run(name, queue, headStart, direction));
+            futures.add(CompletableFuture.supplyAsync(() -> run(name, queue, headStart, direction), executor));
+        }
+
+        List<SimulationResult> results = new ArrayList<>(futures.size());
+        for (CompletableFuture<SimulationResult> future : futures) {
+            results.add(future.join());
         }
         return results;
+    }
+
+    public void shutdown() {
+        executor.shutdownNow();
+        try {
+            executor.awaitTermination(2, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
