@@ -12,6 +12,7 @@ public final class Theme {
     public static final Color BG = new Color(21, 23, 61);
     public static final Color PANEL = new Color(255, 255, 255);
     public static final Color DARK_PANEL = new Color(48, 48, 48);
+    public static final Color DARK_BORDER = new Color(95, 95, 95);
     public static final Color ACCENT = new Color(152, 37, 152);
     public static final Color ACCENT_DARK = new Color(152, 37, 152);
     public static final Color TEXT = new Color(228, 145, 201);

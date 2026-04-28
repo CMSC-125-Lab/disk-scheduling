@@ -42,7 +42,7 @@ public class SimulationScreen extends JPanel {
 
         titleLabel = new JLabel("Simulation", JLabel.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
-        titleLabel.setForeground(Theme.ACCENT_DARK);
+        titleLabel.setForeground(Theme.TEXT);
 
         JPanel rightTop = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         rightTop.setOpaque(false);
@@ -57,7 +57,7 @@ public class SimulationScreen extends JPanel {
         top.add(rightTop, BorderLayout.EAST);
 
         infoLabel = new JLabel("Queue: []   Head starts at: 0.");
-        infoLabel.setBorder(BorderFactory.createEmptyBorder(2, 8, 4, 0));
+        infoLabel.setBorder(BorderFactory.createEmptyBorder(2, 10, 4, 0));
         infoLabel.setForeground(Theme.TEXT);
         infoLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
@@ -146,12 +146,12 @@ public class SimulationScreen extends JPanel {
             exportPanel = new JPanel(new BorderLayout(8, 8));
             exportPanel.setBackground(Theme.DARK_PANEL);
             exportPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new java.awt.Color(95, 95, 95)),
+                BorderFactory.createLineBorder(Theme.DARK_BORDER),
                     BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
             JLabel algoTitle = new JLabel(result.algorithmName, JLabel.CENTER);
             algoTitle.setFont(new Font("SansSerif", Font.BOLD, 22));
-            algoTitle.setForeground(Theme.ACCENT_DARK);
+            algoTitle.setForeground(Theme.TEXT);
             exportPanel.add(algoTitle, BorderLayout.NORTH);
 
             graphPanel = new DiskGraphPanel();

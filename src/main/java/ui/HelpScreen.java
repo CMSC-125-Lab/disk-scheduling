@@ -56,7 +56,7 @@ public class HelpScreen extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Theme.DARK_PANEL);
         panel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new java.awt.Color(95, 95, 95)),
+            BorderFactory.createLineBorder(Theme.DARK_BORDER),
                 BorderFactory.createEmptyBorder(14, 14, 14, 14)));
 
         JTextArea area = new JTextArea(text);

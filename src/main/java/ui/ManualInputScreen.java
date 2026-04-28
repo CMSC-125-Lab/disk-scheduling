@@ -45,7 +45,7 @@ public class ManualInputScreen extends JPanel {
         form.setOpaque(true);
         form.setBackground(Theme.DARK_PANEL);
         form.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(95, 95, 95)),
+            BorderFactory.createLineBorder(Theme.DARK_BORDER),
                 BorderFactory.createEmptyBorder(18, 18, 18, 18)));
 
         GridBagConstraints gbc = new GridBagConstraints();
