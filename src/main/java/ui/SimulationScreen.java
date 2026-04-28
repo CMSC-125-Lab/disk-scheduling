@@ -163,9 +163,16 @@ public class SimulationScreen extends JPanel {
             exportPanel.add(algoTitle, BorderLayout.NORTH);
 
             graphPanel = new DiskGraphPanel();
-            graphPanel.setPreferredSize(new Dimension(780, 380));
+            int graphWidth = Math.max(800, 100 + (queue.length * 40));
+            graphPanel.setPreferredSize(new Dimension(graphWidth, 280));
             graphPanel.setSimulationData(result, queue, headStart);
-            exportPanel.add(graphPanel, BorderLayout.CENTER);
+            
+            JScrollPane graphScroll = new JScrollPane(graphPanel,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            graphScroll.setBorder(BorderFactory.createEmptyBorder());
+            graphScroll.getHorizontalScrollBar().setUnitIncrement(16);
+            exportPanel.add(graphScroll, BorderLayout.CENTER);
 
             JPanel stats = new JPanel(new BorderLayout());
             stats.setOpaque(false);
