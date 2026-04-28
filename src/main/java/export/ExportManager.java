@@ -61,7 +61,13 @@ public class ExportManager {
     }
 
     private void exportAsImage(Component component, File file) throws IOException {
-        BufferedImage image = new BufferedImage(component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        java.awt.Dimension size = component.getSize();
+        if (size.width <= 0 || size.height <= 0) {
+            size = component.getPreferredSize();
+            component.setSize(size);
+        }
+        component.doLayout();
+        BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         component.paint(g2);
         g2.dispose();
@@ -79,11 +85,18 @@ public class ExportManager {
                     return NO_SUCH_PAGE;
                 }
 
+                java.awt.Dimension size = component.getSize();
+                if (size.width <= 0 || size.height <= 0) {
+                    size = component.getPreferredSize();
+                    component.setSize(size);
+                }
+                component.doLayout();
+
                 Graphics2D g2 = (Graphics2D) graphics;
                 g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-                double scaleX = pageFormat.getImageableWidth() / component.getWidth();
-                double scaleY = pageFormat.getImageableHeight() / component.getHeight();
+                double scaleX = pageFormat.getImageableWidth() / size.width;
+                double scaleY = pageFormat.getImageableHeight() / size.height;
                 double scale = Math.min(scaleX, scaleY);
                 g2.scale(scale, scale);
                 component.paint(g2);

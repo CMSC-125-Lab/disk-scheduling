@@ -126,7 +126,7 @@ public class SimulationScreen extends JPanel {
             return;
         }
 
-        Component target = resultPanels.get(0).getExportTarget();
+        Component target = resultPanels.size() == 1 ? resultPanels.get(0).getExportTarget() : resultsStack;
         exportManager.exportComponent(target, this);
     }
 
@@ -163,16 +163,16 @@ public class SimulationScreen extends JPanel {
             exportPanel.add(algoTitle, BorderLayout.NORTH);
 
             graphPanel = new DiskGraphPanel();
-                int graphWidth = 780;
-                int graphHeight = Math.max(360, 120 + (result.visitOrder.length * 34));
-                graphPanel.setPreferredSize(new Dimension(graphWidth, graphHeight));
+            int graphWidth = 780;
+            int graphHeight = Math.max(360, 120 + (result.visitOrder.length * 34));
+            graphPanel.setPreferredSize(new Dimension(graphWidth, graphHeight));
             graphPanel.setSimulationData(result, queue, headStart);
             
             JScrollPane graphScroll = new JScrollPane(graphPanel,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             graphScroll.setBorder(BorderFactory.createEmptyBorder());
-                graphScroll.getVerticalScrollBar().setUnitIncrement(16);
+            graphScroll.getVerticalScrollBar().setUnitIncrement(16);
             graphScroll.getHorizontalScrollBar().setUnitIncrement(16);
             exportPanel.add(graphScroll, BorderLayout.CENTER);
 
