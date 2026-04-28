@@ -43,9 +43,9 @@ public class ManualInputScreen extends JPanel {
 
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(true);
-        form.setBackground(Theme.PANEL);
+        form.setBackground(Theme.DARK_PANEL);
         form.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new java.awt.Color(245, 210, 230)),
+            BorderFactory.createLineBorder(new Color(95, 95, 95)),
                 BorderFactory.createEmptyBorder(18, 18, 18, 18)));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -60,6 +60,7 @@ public class ManualInputScreen extends JPanel {
         queueField = new JTextField("83, 129, 36, 20, 199");
         queueField.setBackground(Theme.INPUT_BG);
         queueField.setForeground(Theme.INPUT_TEXT);
+        queueField.setCaretColor(Theme.INPUT_TEXT);
 
         JLabel headLabel = new JLabel("Head Starts at");
         headLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -67,6 +68,7 @@ public class ManualInputScreen extends JPanel {
         headField = new JTextField("36");
         headField.setBackground(Theme.INPUT_BG);
         headField.setForeground(Theme.INPUT_TEXT);
+        headField.setCaretColor(Theme.INPUT_TEXT);
 
         selectionPanel = new AlgorithmSelectionPanel(engine.getAlgorithmNames());
 

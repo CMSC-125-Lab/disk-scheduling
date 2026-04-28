@@ -144,9 +144,9 @@ public class SimulationScreen extends JPanel {
             setBackground(Theme.BG);
 
             exportPanel = new JPanel(new BorderLayout(8, 8));
-            exportPanel.setBackground(Theme.PANEL);
+            exportPanel.setBackground(Theme.DARK_PANEL);
             exportPanel.setBorder(BorderFactory.createCompoundBorder(
-                    BorderFactory.createLineBorder(new java.awt.Color(245, 210, 230)),
+                BorderFactory.createLineBorder(new java.awt.Color(95, 95, 95)),
                     BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
             JLabel algoTitle = new JLabel(result.algorithmName, JLabel.CENTER);
@@ -176,6 +176,7 @@ public class SimulationScreen extends JPanel {
             JPanel speedRow = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
             speedRow.setOpaque(false);
             JLabel speedLabel = new JLabel("Speed");
+            speedLabel.setForeground(Theme.TEXT);
             JSlider slider = new JSlider(50, 1000, 300);
             slider.addChangeListener(e -> graphPanel.setSpeed(slider.getValue()));
             JButton restart = Theme.createSecondaryButton("Restart");

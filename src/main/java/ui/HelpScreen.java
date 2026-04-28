@@ -54,16 +54,16 @@ public class HelpScreen extends JPanel {
 
     private JPanel createColumn(String text) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Theme.PANEL);
+        panel.setBackground(Theme.DARK_PANEL);
         panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new java.awt.Color(244, 205, 232)),
+            BorderFactory.createLineBorder(new java.awt.Color(95, 95, 95)),
                 BorderFactory.createEmptyBorder(14, 14, 14, 14)));
 
         JTextArea area = new JTextArea(text);
         area.setEditable(false);
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
-        area.setBackground(Theme.PANEL);
+        area.setBackground(Theme.DARK_PANEL);
         area.setForeground(Theme.TEXT);
         area.setFont(new Font("SansSerif", Font.PLAIN, 14));
         panel.add(area, BorderLayout.CENTER);

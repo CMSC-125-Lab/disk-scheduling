@@ -44,9 +44,9 @@ public class RandomInputScreen extends JPanel {
         add(top, BorderLayout.NORTH);
 
         JPanel card = new JPanel(new GridBagLayout());
-        card.setBackground(Theme.PANEL);
+        card.setBackground(Theme.DARK_PANEL);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new java.awt.Color(245, 210, 230)),
+            BorderFactory.createLineBorder(new java.awt.Color(95, 95, 95)),
                 BorderFactory.createEmptyBorder(18, 18, 18, 18)));
 
         GridBagConstraints gbc = new GridBagConstraints();

@@ -26,6 +26,7 @@ public final class Theme {
         JButton button = new JButton(text);
         button.setBackground(ACCENT);
         button.setForeground(Color.WHITE);
+        button.setOpaque(true);
         button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.BOLD, 15));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -37,6 +38,7 @@ public final class Theme {
         JButton button = new JButton(text);
         button.setBackground(new Color(100, 40, 100));
         button.setForeground(Color.WHITE);
+        button.setOpaque(true);
         button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.BOLD, 14));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
