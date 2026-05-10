@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -96,14 +95,9 @@ public class AlgorithmSelectionPanel extends JPanel {
     }
 
     private void updateDirectionVisibility() {
-        boolean directional = isDirectional(selectedAlgorithm) || selectAll;
-        directionCombo.setEnabled(directional);
-        directionCombo.setBackground(directional ? Theme.INPUT_BG : new Color(201, 201, 201));
+        directionCombo.setEnabled(true);
+        directionCombo.setBackground(Theme.INPUT_BG);
         directionCombo.setForeground(Theme.INPUT_TEXT);
-    }
-
-    private boolean isDirectional(String name) {
-        return "SCAN".equals(name) || "C-SCAN".equals(name) || "LOOK".equals(name) || "C-LOOK".equals(name);
     }
 
     public String getSelectedAlgorithm() {

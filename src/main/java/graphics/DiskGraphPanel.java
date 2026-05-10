@@ -5,7 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -55,7 +58,7 @@ public class DiskGraphPanel extends JPanel {
         int yStart = 58;
         int yStep = Math.max(5, (height - yStart - 24) / Math.max(1, result.visitOrder.length));
 
-        g2.setColor(new Color(120, 120, 120));
+        g2.setColor(new Color(110, 110, 110));
         g2.setStroke(new BasicStroke(2f));
         g2.drawLine(padding, axisY, width - padding, axisY);
 
@@ -67,11 +70,21 @@ public class DiskGraphPanel extends JPanel {
             }
         }
 
-        g2.setColor(Theme.MUTED);
-        for (int value : labelSet) {
+        List<Integer> sortedLabels = new ArrayList<>(labelSet);
+        Collections.sort(sortedLabels);
+        g2.setColor(new Color(70, 70, 70));
+        int lastRow1X = -100;
+        int lastRow2X = -100;
+        for (int value : sortedLabels) {
             int x = toPixelX(value, width, padding);
             g2.drawLine(x, axisY - 4, x, axisY + 4);
-            g2.drawString(String.valueOf(value), x - 10, axisY - 10);
+            if (x - lastRow1X >= 28) {
+                g2.drawString(String.valueOf(value), x - 10, axisY - 10);
+                lastRow1X = x;
+            } else if (x - lastRow2X >= 28) {
+                g2.drawString(String.valueOf(value), x - 10, axisY - 24);
+                lastRow2X = x;
+            }
         }
 
         int drawSegments = Math.min(currentStep, result.visitOrder.length - 1);
@@ -89,10 +102,13 @@ public class DiskGraphPanel extends JPanel {
         for (int i = 0; i <= drawSegments; i++) {
             int x = toPixelX(result.visitOrder[i], width, padding);
             int y = yStart + (i * yStep);
+            g2.setColor(Color.WHITE);
+            g2.fillOval(x - 5, y - 5, 10, 10);
             g2.setColor(Theme.ACCENT_DARK);
             g2.drawOval(x - 6, y - 6, 12, 12);
-            g2.setColor(Theme.TEXT);
-            g2.drawString(String.valueOf(result.visitOrder[i]), x - 10, y - 10);
+            g2.setColor(Theme.ACCENT);
+            int labelY = (i % 2 == 0) ? y - 10 : y + 18;
+            g2.drawString(String.valueOf(result.visitOrder[i]), x - 10, labelY);
         }
 
         if (drawSegments > 0) {

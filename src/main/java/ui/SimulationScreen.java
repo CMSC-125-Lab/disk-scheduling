@@ -89,7 +89,9 @@ public class SimulationScreen extends JPanel {
         this.resultPanels = new ArrayList<>();
 
         titleLabel.setText(results.size() == 1 ? results.get(0).algorithmName : "Simulation Results");
-        infoLabel.setText("Queue: " + queueToText(queue) + "   Head starts at: " + headStart + ".");
+        String fullQueue = queueToText(queue);
+        infoLabel.setText("Queue: " + queueToDisplayText(queue) + "   Head starts at: " + headStart + ".");
+        infoLabel.setToolTipText("Full queue: " + fullQueue);
 
         contentPanel.removeAll();
         resultsStack.removeAll();
@@ -128,6 +130,18 @@ public class SimulationScreen extends JPanel {
 
         Component target = resultPanels.size() == 1 ? resultPanels.get(0).getExportTarget() : resultsStack;
         exportManager.exportComponent(target, this);
+    }
+
+    private String queueToDisplayText(int[] queue) {
+        int limit = 10;
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < Math.min(queue.length, limit); i++) {
+            if (i > 0) builder.append(", ");
+            builder.append(queue[i]);
+        }
+        if (queue.length > limit) builder.append(", ...");
+        builder.append(']');
+        return builder.toString();
     }
 
     private String queueToText(int[] queue) {
