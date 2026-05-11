@@ -97,7 +97,14 @@ public class ManualInputScreen extends JPanel {
 
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.setOpaque(false);
-        bottom.add(Theme.createLogoPlaceholder(), BorderLayout.WEST);
+        try {
+            javax.swing.ImageIcon logoIcon = new javax.swing.ImageIcon(getClass().getResource("/dsaster-logo.png"));
+            java.awt.Image logoImg = logoIcon.getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH);
+            JLabel logoLabel = new JLabel(new javax.swing.ImageIcon(logoImg));
+            bottom.add(logoLabel, BorderLayout.WEST);
+        } catch (Exception e) {
+            bottom.add(Theme.createLogoPlaceholder(), BorderLayout.WEST);
+        }
         add(bottom, BorderLayout.SOUTH);
     }
 

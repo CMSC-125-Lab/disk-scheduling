@@ -51,18 +51,32 @@ public class InputMethodScreen extends JPanel {
 
         center.add(heading);
         center.add(Box.createRigidArea(new Dimension(0, 24)));
-        center.add(random);
-        center.add(Box.createRigidArea(new Dimension(0, 10)));
-        center.add(manual);
-        center.add(Box.createRigidArea(new Dimension(0, 10)));
-        center.add(file);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel.add(random);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        buttonPanel.add(manual);
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        buttonPanel.add(file);
+
+        center.add(buttonPanel);
 
         centerWrap.add(center);
         add(centerWrap, BorderLayout.CENTER);
 
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.setOpaque(false);
-        bottom.add(Theme.createLogoPlaceholder(), BorderLayout.WEST);
+        try {
+            javax.swing.ImageIcon logoIcon = new javax.swing.ImageIcon(getClass().getResource("/dsaster-logo.png"));
+            java.awt.Image logoImg = logoIcon.getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH);
+            JLabel logoLabel = new JLabel(new javax.swing.ImageIcon(logoImg));
+            bottom.add(logoLabel, BorderLayout.WEST);
+        } catch (Exception e) {
+            bottom.add(Theme.createLogoPlaceholder(), BorderLayout.WEST);
+        }
         add(bottom, BorderLayout.SOUTH);
     }
 }
