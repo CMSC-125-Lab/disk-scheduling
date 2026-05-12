@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.BoxLayout;
 
 import export.ExportManager;
 import graphics.DiskGraphPanel;
@@ -105,7 +105,13 @@ public class SimulationScreen extends JPanel {
         if (results.size() == 1) {
             AlgorithmResultPanel panel = new AlgorithmResultPanel(results.get(0), queue, headStart, direction);
             resultPanels.add(panel);
-            contentPanel.add(panel, BorderLayout.CENTER);
+            JScrollPane scrollPane = new JScrollPane(panel,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setBorder(BorderFactory.createEmptyBorder());
+            scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+            scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+            contentPanel.add(scrollPane, BorderLayout.CENTER);
         } else {
             for (SimulationResult result : results) {
                 AlgorithmResultPanel panel = new AlgorithmResultPanel(result, queue, headStart, direction);
@@ -116,9 +122,10 @@ public class SimulationScreen extends JPanel {
             }
             JScrollPane scrollPane = new JScrollPane(resultsStack,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setBorder(BorderFactory.createEmptyBorder());
             scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+            scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
             contentPanel.add(scrollPane, BorderLayout.CENTER);
         }
 
@@ -177,6 +184,7 @@ public class SimulationScreen extends JPanel {
             exportPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Theme.DARK_BORDER),
                     BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+            exportPanel.setMinimumSize(new Dimension(820, 320));
 
             JLabel algoTitle = new JLabel(result.algorithmName, JLabel.CENTER);
             algoTitle.setFont(new Font("SansSerif", Font.BOLD, 22));
