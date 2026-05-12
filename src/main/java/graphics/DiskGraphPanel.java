@@ -2,8 +2,10 @@ package graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +24,7 @@ public class DiskGraphPanel extends JPanel {
     private static final int MAX_DELAY = 1000;
     private static final int LABEL_MIN_SPACING = 35;
     private static final int LABEL_WIDTH = 25;
+    private static final int MAX_WIDTH = 1400;
 
     private SimulationResult result;
     private int[] queue;
@@ -49,40 +52,25 @@ public class DiskGraphPanel extends JPanel {
         Set<Integer> labelSet = new LinkedHashSet<>();
         labelSet.add(headStart);
         if (queue != null) {
-            for (int value : queue) {
-                labelSet.add(value);
-            }
+            for (int value : queue) labelSet.add(value);
         }
-        
         List<Integer> sortedLabels = new ArrayList<>(labelSet);
         Collections.sort(sortedLabels);
-        
-        // Find minimum spacing between consecutive labels
+
         int minSpacing = Integer.MAX_VALUE;
         for (int i = 1; i < sortedLabels.size(); i++) {
-            int spacing = sortedLabels.get(i) - sortedLabels.get(i - 1);
-            minSpacing = Math.min(minSpacing, spacing);
+            minSpacing = Math.min(minSpacing, sortedLabels.get(i) - sortedLabels.get(i - 1));
         }
-        
-        // Calculate width needed to prevent label overlap
-        // For 3-digit values, each label needs about 20 pixels
-        // Minimum pixel distance between labels should be 5px
-        int padding = 50;
-        int minPixelSpacing = 5;
-        int labelWidth = 20;
+
         int requiredWidth;
-        
         if (minSpacing == Integer.MAX_VALUE || minSpacing == 0) {
             requiredWidth = 780;
         } else {
-            // Formula: each value needs (labelWidth + minPixelSpacing) pixels
-            // Total range is 199 (0-199), so: width = 199 * pixelsPerUnit + padding
-            // pixelsPerUnit = (labelWidth + minPixelSpacing) / minSpacing
-            double pixelsPerUnit = (double) (labelWidth + minPixelSpacing) / minSpacing;
-            requiredWidth = (int) Math.ceil(199 * pixelsPerUnit) + 2 * padding;
+            double pixelsPerUnit = (double) (LABEL_WIDTH + 5) / minSpacing;
+            requiredWidth = (int) Math.ceil(199 * pixelsPerUnit) + 100;
         }
-        
-        this.calculatedWidth = Math.max(780, requiredWidth);
+
+        this.calculatedWidth = Math.max(780, Math.min(MAX_WIDTH, requiredWidth));
     }
 
     @Override
@@ -119,15 +107,24 @@ public class DiskGraphPanel extends JPanel {
         Set<Integer> labelSet = new LinkedHashSet<>();
         labelSet.add(headStart);
         if (queue != null) {
-            for (int value : queue) {
-                labelSet.add(value);
-            }
+            for (int value : queue) labelSet.add(value);
         }
 
         List<Integer> sortedLabels = new ArrayList<>(labelSet);
         Collections.sort(sortedLabels);
-        g2.setColor(new Color(70, 70, 70));
+
+        List<Integer> visibleLabels = new ArrayList<>();
+        int lastLabelX = -LABEL_MIN_SPACING;
         for (int value : sortedLabels) {
+            int x = toPixelX(value, width, padding);
+            if (x - lastLabelX >= LABEL_MIN_SPACING) {
+                visibleLabels.add(value);
+                lastLabelX = x;
+            }
+        }
+
+        g2.setColor(new Color(70, 70, 70));
+        for (int value : visibleLabels) {
             int x = toPixelX(value, width, padding);
             g2.drawLine(x, axisY - 4, x, axisY + 4);
             g2.drawString(String.valueOf(value), x - 10, axisY - 10);
@@ -145,6 +142,10 @@ public class DiskGraphPanel extends JPanel {
             g2.drawLine(x1, y1, x2, y2);
         }
 
+        FontMetrics fm = g2.getFontMetrics();
+        int lh = fm.getHeight();
+        List<Rectangle> placedLabels = new ArrayList<>();
+
         for (int i = 0; i <= drawSegments; i++) {
             int x = toPixelX(result.visitOrder[i], width, padding);
             int y = yStart + (i * yStep);
@@ -153,8 +154,22 @@ public class DiskGraphPanel extends JPanel {
             g2.setColor(Theme.ACCENT_DARK);
             g2.drawOval(x - 6, y - 6, 12, 12);
             g2.setColor(Theme.ACCENT);
-            int labelY = (i % 2 == 0) ? y - 10 : y + 18;
-            g2.drawString(String.valueOf(result.visitOrder[i]), x - 10, labelY);
+
+            String label = String.valueOf(result.visitOrder[i]);
+            int lw = fm.stringWidth(label);
+            int lx = x - lw / 2;
+            int[] candidates = { y - 12, y + 20, y - 26, y + 34, y - 40, y + 48 };
+            int chosenY = candidates[0];
+            for (int cy : candidates) {
+                Rectangle r = new Rectangle(lx - 1, cy - lh, lw + 2, lh + 2);
+                boolean clash = false;
+                for (Rectangle placed : placedLabels) {
+                    if (r.intersects(placed)) { clash = true; break; }
+                }
+                if (!clash) { chosenY = cy; break; }
+            }
+            placedLabels.add(new Rectangle(lx - 1, chosenY - lh, lw + 2, lh + 2));
+            g2.drawString(label, lx, chosenY);
         }
 
         if (drawSegments > 0) {
